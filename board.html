@@ -1,46 +1,88 @@
 <html>
-<head><link rel="stylesheet" type="text/css" href="board_style.css"></head>
-<body onload="populate_inner_squares();">
-<table>
-<tr>
-<td class="corner"></td>
-<td colspan="2"><input class="top"></td><td colspan=2><input class="top"></td><td colspan=2><input class="top"></td>
-<td class="corner"></td>
-</tr>
-<tr id="r1"><td></td></tr>
-<tr id="r2"><td></td></tr>
-<tr id="r3"><td></td></tr>
-<tr id="r4"><td></td></tr>
-<tr id="r5"><td></td></tr>
-<tr id="r6"><td></td></tr>
-<tr>
-<td class="corner"></td>
-<td>1</td><td>4</td><td>5</td><td>6</td><td>3</td><td>2</td><td class="corner"></td>
-</tr>
-</table>
-</body>
+  <head><link rel="stylesheet" type="text/css" href="board_style.css"></head>
+  <body onload="populate_grid();">
+    <table>
+      <tr>
+        <td class="corner"></td>
+        <td colspan="2"><input class="top"></td>
+        <td colspan=2><input class="top"></td>
+        <td colspan=2><input class="top"></td>
+        <td class="corner"></td>
+      </tr>
+      <tr>
+        <td id="left_r1">3</td>
+        <td rowspan=3 colspan=7>
+          <table class="grid">
+            <tr id="r1"><td></td></tr>
+            <tr id="r2"><td></td></tr>
+            <tr id="r3"><td></td></tr>
+            <tr id="r4"><td></td></tr>
+            <tr id="r5"><td></td></tr>
+            <tr id="r6"><td></td></tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td id="left_r2">1</td>
+      </tr>
+      <tr>
+        <td id = "left_r3">2</td>
+      </tr>
+      <tr>
+        <td class="corner"></td>
+        <td id="bottom_c1">1</td>
+        <td id="bottom_c2">4</td>
+        <td id="bottom_c3">5</td>
+        <td id="bottom_c4">6</td>
+        <td id="bottom_c5">3</td>
+        <td id="bottom_c6">2</td>
+        <td class="corner"></td>
+      </tr>
+    </table>
+  </body>
 </html>
 <script>
-function populate_inner_squares() {
+function populate_grid() {
   for (var i = 1; i <= 6 ; i++) {
-  	var row = document.getElementById("r" + i);
-  	var header = i % 2 == 1 ? "<td rowspan=2>3</td>" : "";
-  	row.innerHTML = header+
-  	                "<td id='r"+i+"c1'></td>"+
-  	                "<td id='r"+i+"c2'></td>"+
-  	                "<td id='r"+i+"c3'></td>"+
-  	                "<td id='r"+i+"c4'></td>"+
-  	                "<td id='r"+i+"c5'></td>"+
-  	                "<td id='r"+i+"c6'></td>"+
-  	                "</td><td><input id='r"+i+"right'></td>";
-  	populate_row(i);
+    var row = document.getElementById("r" + i);
+    row.innerHTML = construct_row(i);
+    populate_row(i);
   }
+}
+function construct_row(row_number) {
+  var returnme = "";
+  for (var i = 1; i <= 6 ; i++) {
+    returnme = returnme + "<td id='r"+row_number+"c" + i + "'></td>";
+  }
+  return returnme +
+    "</td><td><input id='r"+i+"right'></td>";
 }
 function populate_row(row) {
   for (i = 1; i <= 6 ; i++) { 
-  	var id = "r" + row + "c" + i;
-  	var cell = document.getElementById("r" + row + "c" + i);
+    var id = "r" + row + "c" + i;
+    var cell = document.getElementById("r" + row + "c" + i);
     cell.innerHTML = "<table class='properties'><tr><td><td><tr><td><td></table";
   }
+}
+function block_value(block) {
+  var bottom_v = parseInt(bottom_value(column(block)));
+  var left_v   = parseInt(left_value(row(block)));
+  return bottom_left_v + bottom_v;
+}
+function left_value(row) {
+  var row = parseInt(row) - 1;
+  row = parseInt(row / 2) + 1;
+  return document.getElementById("left_r" + row).innerHTML;
+}
+function bottom_value(column) {
+  return document.getElementById("bottom_c" + column).innerHTML;
+}
+function column(block) {
+  var filter = /r(\d)c(\d)/;
+  return filter.exec(block)[2]
+}
+function row(block) {
+  var filter = /r(\d)c(\d)/;
+  return filter.exec(block)[1]
 }
 </script>

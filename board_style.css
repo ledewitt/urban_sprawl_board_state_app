@@ -1,7 +1,7 @@
 td {
-	width: 50px;
-	max-height: 50px; 
-	height: 50px;
+	width: 100;
+	max-height: 100px; 
+	height: 100px;
 	text-align: center;
 	font-size: 33;
 }
@@ -14,18 +14,18 @@ table.properties {
 }
 table.properties td {
 	border: 1px solid red;
-	width: 25px;
-	height: 25px;
-}
-input {
 	width: 50px;
 	height: 50px;
+}
+input {
+	width: 100px;
+	height: 100px;
 	text-align: center;
 	font-size: 33;
 }
 input.top {
-	width: 100px;
-	height: 50px;
+	width: 200px;
+	height: 100px;
 	text-align: center;
 	font-size: 33;
 }
