@@ -1,0 +1,30 @@
+ToDo:
+
+Main Board -
+
+Value calculation for each cell.
+Score calculation for each building and which player owns it.
+Highest scoring building in all rows and column variations on row select or
+mouse over possibly.
+Able to track prestige, wealth, and value of each building.
+Move around the prestige and wealth markers.
+Have to be able to remove buildings as state changes.
+
+Side board -
+
+Able to take a players name and assign color
+Handle elections and label which office each player controls
+Offices: Mayor, District Attorney, Treasurer, Police Chief, Union Boss,
+Contractor
+Player's current score, maybe order by player score
+End game scoring calculations
+  Step 1: for all prestige rows on board
+  Step 2: Money / 10 round down
+  Step 3: Prestige for each political office the player holds
+
+Buildings -
+
+Two click method to place on board.
+Choose type of building.
+Select player who owns building
+Some way to distinguish building owner and type
