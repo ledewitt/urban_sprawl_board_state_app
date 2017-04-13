@@ -6,21 +6,37 @@ Value calculation for each cell.
 Score calculation for each building and which player owns it.
 Highest scoring building in all rows and column variations on row select or
 mouse over possibly.
-Able to track prestige, wealth, and value of each building.
+Pay Outs - Rank players by the number of buildings they have in the row or 
+column from Most down to 4th Most of respective value to determine Payouts p.11
+Handle Ties for Pay Outs as well p.11
+Able to track prestige, wealth, and value of each building.  When electing
+political offices need to be able to find the player with the msot valuable of
+each type of building. p.13
+If tied on the most valuable of the tied players the player with the most
+buildings of the type for that election wins. p.13
 Move around the prestige and wealth markers.
-Have to be able to remove buildings as state changes.
+Have to be able to remove buildings as state changes.  See Urban Renewal and
+Contractor on p.14
+Neighborhood bonus p.9
+Zoning Restrictions - Low priority p.8
+Look through card effects to understand what algorithmic data needs to be pulled
+from the board. Example: Business Relocation can cause a player to lose control
+of a building (so need to make uncontrolled building states possible). p.13
 
 Side board -
 
 Able to take a players name and assign color
 Handle elections and label which office each player controls
 Offices: Mayor, District Attorney, Treasurer, Police Chief, Union Boss,
-Contractor
+Contractor p.12
+Special Ability bonuses for each office p.12
 Player's current score, maybe order by player score
 End game scoring calculations
   Step 1: for all prestige rows on board
   Step 2: Money / 10 round down
-  Step 3: Prestige for each political office the player holds
+  Step 3: Prestige for each political office the player holds p.12
+Vocations and scoring p. 9 abilty to take from other players when supply runs
+out.
 
 Buildings -
 
@@ -28,3 +44,11 @@ Two click method to place on board.
 Choose type of building.
 Select player who owns building
 Some way to distinguish building owner and type
+
+Backend DOM stuff -
+
+Object to hold the players and all there current important statistics.
+
+Further research -
+
+Look through card effects to understand what algorithmic data might be needed.
