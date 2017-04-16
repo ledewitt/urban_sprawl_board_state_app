@@ -90,31 +90,31 @@
 //board building 
 buffer = ""
 tokens = {
-  "4": "<span id='token-4'>" +
+  "4": "<span id='token-4' value=5 >" +
     "<img src='images/influence_token_4.png' alt='influence token four'/>" +
     "</span>",
-  "5": "<span id='token-5'>" +
+  "5": "<span id='token-5' value=5 >" +
     "<img src='images/influence_token_5.png' alt='influence token five'/>" +
     "</span>",
-  "6": "<span id='token-6'>" +
+  "6": "<span id='token-6' value=6 >" +
     "<img src='images/influence_token_6.png' alt='influence token six'/>" +
     "</span>",
-  "7": "<span id='token-7'>" +
+  "7": "<span id='token-7' value=7 >" +
     "<img src='images/wealth_token_7.png' alt='influence token seven'/>" +
     "</span>",
-  "8": "<span id='token-8'>" +
+  "8": "<span id='token-8' value=8 >" +
     "<img src='images/wealth_token_8.png' alt='influence token eight'/>" +
     "</span>",
-  "9": "<span id='token-9'>" +
+  "9": "<span id='token-9' value=9 >" +
     "<img src='images/wealth_token_9.png' alt='influence token nine'/>" +
     "</span>",
-  "10": "<span id='token-10'>" +
+  "10": "<span id='token-10' value=10 >" +
     "<img src='images/wealth_token_10.png' alt='influence token ten'/>" +
     "</span>",
-  "11": "<span id='token-11'>" +
+  "11": "<span id='token-11' value=11 >" +
     "<img src='images/wealth_token_11.png' alt='influence token eleven'/>" +
     "</span>",
-  "12": "<span id='token-12'>" +
+  "12": "<span id='token-12' value=12 >" +
     "<img src='images/wealth_token_12.png' alt='influence token twelve'/>" +
     "</span>",
 }
@@ -135,7 +135,10 @@ function construct_row(row_number) {
     returnme = returnme + "<td id='r"+row_number+"c" + i + "'></td>";
   }
   return returnme +
-    "<td onclick='move_token("+'"row_'+row_number+'"'+");'><span id='row_"+row_number+"'></td>";
+    "<td onclick='move_token("+'"row_'+row_number+'"'+
+    ");'><span id='row_" + 
+    row_number+"'"+
+    "value="+row_number+"></td>";
 }
 function populate_row(row) {
   for (i = 1; i <= 6 ; i++) { 
@@ -158,8 +161,10 @@ function populate_tokens() {
 //value calculation
 function block_value(block) {
   var bottom_v = parseInt(bottom_value(column(block)));
+  var top_v    = parseInt(top_value(column(block)));
   var left_v   = parseInt(left_value(row(block)));
-  return bottom_left_v + bottom_v;
+  var right_v   = parseInt(right_value(row(block)));
+  return left_v + bottom_v + top_v + right_v;
 }
 function left_value(row) {
   var row = parseInt(row) - 1;
@@ -168,6 +173,22 @@ function left_value(row) {
 }
 function bottom_value(column) {
   return document.getElementById("bottom_c" + column).innerHTML;
+}
+function right_value(column) {
+  element = document.getElementById('row_'+column);
+  if (element.innerHTML == "") {
+    return "0";
+  } else {
+    return element.getElementsByTagName("span")[0].getAttribute("value");
+  }
+}
+function top_value(column) {
+  element = document.getElementById('col_'+column);
+  if (element.innerHTML == "") {
+    return "0";
+  } else {
+    return element.getElementsByTagName("span")[0].getAttribute("value");
+  }
 }
 function column(block) {
   var filter = /r(\d)c(\d)/;
