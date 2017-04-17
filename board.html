@@ -3,16 +3,16 @@
     <link rel="stylesheet" type="text/css" href="board_style.css">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />  
   </head>
-  <body onload="populate_grid();">
+  <body onload="populate_board();">
     <table class="layout">
       <tr>
         <td>
           <table>
             <tr>
               <td class="corner"></td>
-              <td colspan="2"><input class="top"></td>
-              <td colspan=2><input class="top"></td>
-              <td colspan=2><input class="top"></td>
+              <td colspan="2" onclick="move_token('col_1');"><span id="col_1"></span></td>
+              <td colspan="2" onclick="move_token('col_2');"><span id="col_2"></span></td>
+              <td colspan="2" onclick="move_token('col_3');"><span id="col_3"></span></td>
               <td class="corner"></td>
             </tr>
             <tr>
@@ -53,12 +53,80 @@
           </table>
         </td>
       </tr>
-      <tr><td>prestige_markers menu</td></tr>
-
+      <tr>
+        <td>
+          <table>
+            <tr>
+              <td onclick="move_token('token_side_bar_1');">
+                <span id="token_side_bar_1"></span>
+              </td>
+              <td onclick="move_token('token_side_bar_2');">
+                <span id="token_side_bar_2"></span>
+              </td>
+              <td onclick="move_token('token_side_bar_3');">
+                <span id="token_side_bar_3"></span>
+              </td>
+              <td onclick="move_token('token_side_bar_4');">
+                <span id="token_side_bar_4"></span>
+              </td>
+              <td onclick="move_token('token_side_bar_5');">
+                <span id="token_side_bar_5"></span>
+              </td>
+              <td onclick="move_token('token_side_bar_6');">
+                <span id="token_side_bar_6"></span>
+              </td>
+              <td onclick="move_token('token_side_bar_7');">
+                <span id="token_side_bar_7"></span>
+              </td>
+              <td onclick="move_token('token_side_bar_8');">
+                <span id="token_side_bar_8"></span>
+              </td>
+              <td onclick="move_token('token_side_bar_9');">
+                <span id="token_side_bar_9"></span>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
     </table>
   </body>
 </html>
 <script>
+//board building 
+buffer = ""
+tokens = {
+  "4": "<span id='token-4' value=4 >" +
+    "<img src='images/influence_token_4.png' alt='influence token four'/>" +
+    "</span>",
+  "5": "<span id='token-5' value=5 >" +
+    "<img src='images/influence_token_5.png' alt='influence token five'/>" +
+    "</span>",
+  "6": "<span id='token-6' value=6 >" +
+    "<img src='images/influence_token_6.png' alt='influence token six'/>" +
+    "</span>",
+  "7": "<span id='token-7' value=7 >" +
+    "<img src='images/wealth_token_7.png' alt='influence token seven'/>" +
+    "</span>",
+  "8": "<span id='token-8' value=8 >" +
+    "<img src='images/wealth_token_8.png' alt='influence token eight'/>" +
+    "</span>",
+  "9": "<span id='token-9' value=9 >" +
+    "<img src='images/wealth_token_9.png' alt='influence token nine'/>" +
+    "</span>",
+  "10": "<span id='token-10' value=10 >" +
+    "<img src='images/wealth_token_10.png' alt='influence token ten'/>" +
+    "</span>",
+  "11": "<span id='token-11' value=11 >" +
+    "<img src='images/wealth_token_11.png' alt='influence token eleven'/>" +
+    "</span>",
+  "12": "<span id='token-12' value=12 >" +
+    "<img src='images/wealth_token_12.png' alt='influence token twelve'/>" +
+    "</span>",
+}
+function populate_board() {
+  populate_grid();
+  populate_tokens();
+}
 function populate_grid() {
   for (var i = 1; i <= 6 ; i++) {
     var row = document.getElementById("r" + i);
@@ -72,7 +140,10 @@ function construct_row(row_number) {
     returnme = returnme + "<td id='r"+row_number+"c" + i + "'></td>";
   }
   return returnme +
-    "</td><td><input id='r"+i+"right'></td>";
+    "<td onclick='move_token("+'"row_'+row_number+'"'+
+    ");'><span id='row_" + 
+    row_number+"'"+
+    "value="+row_number+"></td>";
 }
 function populate_row(row) {
   for (i = 1; i <= 6 ; i++) { 
@@ -81,10 +152,24 @@ function populate_row(row) {
     cell.innerHTML = "<table class='properties'><tr><td><td><tr><td><td></table";
   }
 }
+function populate_tokens() {
+  document.getElementById("token_side_bar_1").innerHTML = tokens["4"];
+  document.getElementById("token_side_bar_2").innerHTML = tokens["5"];
+  document.getElementById("token_side_bar_3").innerHTML = tokens["6"];
+  document.getElementById("token_side_bar_4").innerHTML = tokens["7"];
+  document.getElementById("token_side_bar_5").innerHTML = tokens["8"];
+  document.getElementById("token_side_bar_6").innerHTML = tokens["9"];
+  document.getElementById("token_side_bar_7").innerHTML = tokens["10"];
+  document.getElementById("token_side_bar_8").innerHTML = tokens["11"];
+  document.getElementById("token_side_bar_9").innerHTML = tokens["12"];
+}
+//value calculation
 function block_value(block) {
   var bottom_v = parseInt(bottom_value(column(block)));
+  var top_v    = parseInt(top_value(column(block)));
   var left_v   = parseInt(left_value(row(block)));
-  return bottom_left_v + bottom_v;
+  var right_v   = parseInt(right_value(row(block)));
+  return left_v + bottom_v + top_v + right_v;
 }
 function left_value(row) {
   var row = parseInt(row) - 1;
@@ -94,6 +179,24 @@ function left_value(row) {
 function bottom_value(column) {
   return document.getElementById("bottom_c" + column).innerHTML;
 }
+function right_value(column) {
+  element = document.getElementById('row_'+column);
+  if (element.innerHTML == "") {
+    return "0";
+  } else {
+    return element.getElementsByTagName("span")[0].getAttribute("value");
+  }
+}
+function top_value(column) {
+  var column = parseInt(column) - 1;
+  column = parseInt(column / 2) + 1;
+  element = document.getElementById('col_'+column);
+  if (element.innerHTML == "") {
+    return "0";
+  } else {
+    return element.getElementsByTagName("span")[0].getAttribute("value");
+  }
+}
 function column(block) {
   var filter = /r(\d)c(\d)/;
   return filter.exec(block)[2]
@@ -101,5 +204,28 @@ function column(block) {
 function row(block) {
   var filter = /r(\d)c(\d)/;
   return filter.exec(block)[1]
+}
+// token moving
+function move_token(location) {
+  var location_has = document.getElementById(location);
+  if (location_has.innerHTML == "" && buffer != "") {
+    place_token(location);
+    return;
+  }
+  if (location_has.innerHTML != "" && buffer == "") {
+    get_token(location);
+    return;
+  }
+}
+function get_token(location) {
+  token = document.getElementById(location);
+  buffer = token.innerHTML;
+  token.innerHTML=""
+}
+function place_token(location) {
+  var spot_to_place = document.getElementById(location);
+  spot_to_place.innerHTML =  buffer;
+  buffer = "";
+
 }
 </script>
