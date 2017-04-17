@@ -90,7 +90,7 @@
 //board building 
 buffer = ""
 tokens = {
-  "4": "<span id='token-4' value=5 >" +
+  "4": "<span id='token-4' value=4 >" +
     "<img src='images/influence_token_4.png' alt='influence token four'/>" +
     "</span>",
   "5": "<span id='token-5' value=5 >" +
@@ -183,6 +183,8 @@ function right_value(column) {
   }
 }
 function top_value(column) {
+  var column = parseInt(column) - 1;
+  column = parseInt(column / 2) + 1;
   element = document.getElementById('col_'+column);
   if (element.innerHTML == "") {
     return "0";
