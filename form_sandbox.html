@@ -2,20 +2,19 @@
   <head>
   </head>
   <body>
-    <form action="/my-handling-form-page" method="post">
+    <form onsubmit="javascript:player_name()">
         <div>
             <label for="name">Name:</label>
-            <input type="text" id="name" name="user_name">
-        </div>
-        <div>
-            <label for="mail">E-mail:</label>
-            <input type="email" id="mail" name="user_mail">
-        </div>
-        <div>
-            <label for="msg">Message:</label>
-            <textarea id="msg" name="user_message"></textarea>
+            <input type="text" id="name"> 
+            <input type="submit" value="Submit">
         </div>
     </form>
+
+    <table>
+      <tr> Player 1: </tr>
+      <tr> Output </tr>
+    </table>
+
   </body>
 </html>
 
@@ -29,6 +28,9 @@ var game_state = {
      //token locations here
  }
 
-function whatever() {
+function player_name(name) {
   // ... use game_state ...
+  game_state[player_state] = name;
 }
+
+</script>
