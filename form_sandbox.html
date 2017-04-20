@@ -16,6 +16,39 @@
       <a href="#" onclick="javascript:player_name();"> Submit </a>
     </div>
 
+    <script>
+
+    function create_player_board() {
+      players = "";
+      Object.keys(game_state["player_state"]).forEach(function(element)
+            {console.log(element);
+            players = players + "<table> <tr> Player: </tr> <tr> "+
+                     game_state["player_state"][element]+
+                    " </tr> </table>";
+            });
+      document.getElementById("player-boards").innerHTML = players;
+      }
+
+    function player_name(element) {
+        players = players + element;
+        console.log(element);
+      }
+
+      // a.forEach(function(element) {
+      //  console.log(element);
+      // });
+
+    </script>
+
+
+    <span id="player-boards">
+<!--
+    <table>
+      <tr> Player 1: </tr>
+      <tr id="player_1_name"> </tr>
+    </table>
+
+    </span>
     <table>
       <tr> Player 1: </tr>
       <tr id="player_1_name"> </tr>
@@ -35,6 +68,8 @@
       <tr> Player 4: </tr>
       <tr id="player_4_name"> </tr>
     </table>
+-->
+  </span>
 
   </body>
 </html>
@@ -56,18 +91,10 @@ function player_name(name) {
   var e = document.getElementById("Player_Section_Menu")
   var strUser = e.options[e.selectedIndex].value;
  
- game_state["player_state"][strUser] = document.getElementById("name").value;
+  game_state["player_state"][strUser] = document.getElementById("name").value;
 
-
-
-  populate_players();
+  create_player_board();
 }
 
-function populate_players() {
 
-  for (i = 1; i <= 4; i++) {
-  document.getElementById("player_"+i+"_name").innerHTML =
-game_state["player_state"]["player-"+i];
-}
-}
 </script>
