@@ -7,6 +7,14 @@
   <body>
     <canvas id="canvas" resize></canvas>
     <img src="images/influence_token_4.png" id="influence-token-4"/>
+    <img src="images/influence_token_5.png" id="influence-token-5"/>
+    <img src="images/influence_token_6.png" id="influence-token-6"/>
+    <img src="images/wealth_token_7.png" id="wealth-token-7"/>
+    <img src="images/wealth_token_8.png" id="wealth-token-8"/>
+    <img src="images/wealth_token_9.png" id="wealth-token-9"/>
+    <img src="images/wealth_token_10.png" id="wealth-token-10"/>
+    <img src="images/wealth_token_11.png" id="wealth-token-11"/>
+    <img src="images/wealth_token_12.png" id="wealth-token-12"/>
   </body>
 </html>
 <script type="text/paperscript" canvas="canvas">
@@ -20,32 +28,47 @@ board_offset_y = 100;
 piece_size     = 60;
 draw_board();
 on_the_mouse = null;
+
 function inBounds(shape) {
   return (shape.bounds["_width"] + shape.bounds["_x"] >= mouse_x &&
         shape.bounds["_x"] <= mouse_x &&
         shape.bounds["_height"] + shape.bounds["_y"] >= mouse_y &&
         shape.bounds["_y"] <= mouse_y);
 }
+
 function draw_board() {
   draw_grid(board_offset_x,board_offset_y,6,6);
   draw_prestige_side_board(board_offset_x,board_offset_y);
-  var raster = new Raster('influence-token-4');
-  raster.position = view.center;
 
 }
 
 function draw_prestige_side_board(board_offset_x,board_offset_y) {
+  prestige_borders= { "left_x"  :  board_offset_x,
+                      "right_x" : board_offset_x + piece_size * 6,
+                      "top_y"   : board_offset_y + piece_size * 6,
+                      "bottom_y": board_offset_y + piece_size * 6 + piece_size * 2
+  };
   prestige_markers = new Path();
   prestige_markers.strokeColor = 'black';
-  prestige_left_x   = board_offset_x
-  prestige_right_x  = board_offset_x + piece_size * 6;
-  prestige_top_y    = board_offset_y + piece_size * 6 + 20;
-  prestige_bottom_y = board_offset_y + piece_size * 6 + piece_size + 20;
-  prestige_markers.add(new Point(prestige_left_x,  prestige_top_y));
-  prestige_markers.add(new Point(prestige_left_x,  prestige_bottom_y));
-  prestige_markers.add(new Point(prestige_right_x, prestige_bottom_y));
-  prestige_markers.add(new Point(prestige_right_x, prestige_top_y));
+  var left_x   = prestige_borders["left_x"];
+  right_x      = prestige_borders["right_x"];
+  top_y        = board_offset_y + piece_size * 6 ;
+  bottom_y     = board_offset_y + piece_size * 6 + piece_size * 2;
+  prestige_markers.add(new Point(left_x,  top_y));
+  prestige_markers.add(new Point(left_x,  bottom_y));
+  prestige_markers.add(new Point(right_x, bottom_y));
+  prestige_markers.add(new Point(right_x, top_y));
   prestige_markers.closed=true;
+  for(var i = 4; i <= 6 ; i++) {
+    var raster = new Raster('influence-token-' + i);
+    raster.position = new Point(left_x + (i - 4) * 60 + 30,top_y + 30);
+    pieces.push(raster);
+  }
+  for(var i = 7; i <= 12 ; i++) {
+    var raster = new Raster('wealth-token-' + i);
+    raster.position = new Point(left_x + (i - 7) * 60 + 30,top_y + 90);
+    pieces.push(raster);
+  }
 }
 
 function draw_grid(start_x,start_y,height,width) {
