@@ -1,17 +1,3 @@
-<html>
-  <head>
-    <link rel="stylesheet" href="./style.css">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />  
-  </head>
-    <script type="text/javascript" src="./node_modules/paper/dist/paper-full.js"></script>
-    <script type="text/javascript" src="./board.js"></script>
-  <body>
-    <canvas id="canvas" resize></canvas>
-  </body>
-</html>
-<script type="text/paperscript" canvas="canvas">
-  
-
 path = rectangle(30,30);
 path2 = rectangle(100,30);
 pieces = [path,  path2];
@@ -26,6 +12,7 @@ function inBounds(shape) {
         shape.bounds["_height"] + shape.bounds["_y"] >= mouse_y &&
         shape.bounds["_y"] <= mouse_y);
 }
+
 function draw_board() {
   draw_grid(board_offset_x,board_offset_y,6,6);
   draw_prestige_side_board(board_offset_x,board_offset_y);
@@ -51,6 +38,7 @@ function draw_grid(start_x,start_y,height,width) {
     draw_grid_row(start_x,start_y + piece_size * i,width);
   }
 }
+
 function draw_grid_row(start_x,start_y,grid_size) {
   for(var i = 0 ; i < grid_size; i++) {
     var grid = new Path();
@@ -63,6 +51,7 @@ function draw_grid_row(start_x,start_y,grid_size) {
     grid.closed=true;
   }
 }
+
 function onMouseDown(event) {
   mouse_x = event.point["x"];
   mouse_y = event.point["y"];
@@ -72,6 +61,7 @@ function onMouseDown(event) {
   }
 
 }
+
 function onMouseUp(event) {
   if(on_the_mouse == null) {
   } else {
@@ -99,6 +89,3 @@ function rectangle(x,y) {
   project.activeLayer.lastChild.fillColor = 'red';
   return path;
 }
-
-
-</script>
