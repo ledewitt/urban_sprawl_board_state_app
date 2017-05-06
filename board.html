@@ -15,17 +15,18 @@
     <img src="images/wealth_token_10.png" id="wealth-token-10"/>
     <img src="images/wealth_token_11.png" id="wealth-token-11"/>
     <img src="images/wealth_token_12.png" id="wealth-token-12"/>
+    <img src="images/board.jpg" id="board"/>
   </body>
 </html>
 <script type="text/paperscript" canvas="canvas">
   
+board_offset_x = 362;
+board_offset_y = 266;
+piece_size     = 56;
 
 path = rectangle(30,30);
 path2 = rectangle(100,30);
 pieces = [path,  path2];
-board_offset_x = 100;
-board_offset_y = 100;
-piece_size     = 60;
 draw_board();
 on_the_mouse = null;
 
@@ -39,7 +40,11 @@ function inBounds(shape) {
 function draw_board() {
   draw_grid(board_offset_x,board_offset_y,6,6);
   draw_prestige_side_board(board_offset_x,board_offset_y);
-
+  board_raster = new Raster('board');
+  board_raster.position = new Point(100 + board_raster["width"]  / 2,
+                                    100 + board_raster["height"] / 2);
+  console.log(board_raster);
+  board_raster.sendToBack();
 }
 
 function draw_prestige_side_board(board_offset_x,board_offset_y) {
@@ -61,12 +66,12 @@ function draw_prestige_side_board(board_offset_x,board_offset_y) {
   prestige_markers.closed=true;
   for(var i = 4; i <= 6 ; i++) {
     var raster = new Raster('influence-token-' + i);
-    raster.position = new Point(left_x + (i - 4) * 60 + 30,top_y + 30);
+    raster.position = new Point(left_x + (i - 4) * piece_size + piece_size / 2,top_y + piece_size / 2);
     pieces.push(raster);
   }
   for(var i = 7; i <= 12 ; i++) {
     var raster = new Raster('wealth-token-' + i);
-    raster.position = new Point(left_x + (i - 7) * 60 + 30,top_y + 90);
+    raster.position = new Point(left_x + (i - 7) * piece_size + piece_size / 2,top_y + 90);
     pieces.push(raster);
   }
 }
@@ -100,10 +105,10 @@ function onMouseDown(event) {
 function onMouseUp(event) {
   if(on_the_mouse == null) {
   } else {
-    var x_modulus = (event.point["x"] - 100) % piece_size;
-    var y_modulus = (event.point["y"] - 100) % piece_size;
-    refined_x = event.point["x"] - x_modulus + 30;
-    refined_y = event.point["y"] - y_modulus + 30;
+    var x_modulus = (event.point["x"] - board_offset_x) % piece_size;
+    var y_modulus = (event.point["y"] - board_offset_y) % piece_size;
+    refined_x = event.point["x"] - x_modulus + piece_size / 2;
+    refined_y = event.point["y"] - y_modulus + piece_size / 2;
     move_to = {x: refined_x , y: refined_y};
     on_the_mouse.position = move_to;
     on_the_mouse = null;
@@ -114,12 +119,12 @@ function rectangle(x,y) {
   var path = new Path();
   path.strokeColor = 'black';
   path.add(new Point(x, y));
-  path.add(new Point(x + 60, y));
-  path.add(new Point(x + 60, y));
-  path.add(new Point(x + 60, y + 30));
-  path.add(new Point(x + 30, y + 30));
-  path.add(new Point(x + 30, y + 60));
-  path.add(new Point(x, y + 60));
+  path.add(new Point(x + piece_size, y));
+  path.add(new Point(x + piece_size, y));
+  path.add(new Point(x + piece_size, y + piece_size / 2));
+  path.add(new Point(x + piece_size / 2, y + piece_size / 2));
+  path.add(new Point(x + piece_size / 2, y + piece_size));
+  path.add(new Point(x, y + piece_size));
   path.closed=true;
   project.activeLayer.lastChild.fillColor = 'red';
   return path;
