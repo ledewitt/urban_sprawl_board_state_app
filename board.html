@@ -5,7 +5,12 @@
   </head>
     <script type="text/javascript" src="./node_modules/paper/dist/paper-full.js"></script>
   <body>
-    <canvas id="canvas" resize></canvas>
+    <div class="board">
+      <canvas id="canvas" resize></canvas>
+    </div>
+    <div class="players-menu">
+      players menu here
+    </div>
     <img src="images/influence_token_4_tiny.png" id="influence-token-4" style="width:128px;height:128px;"/>
     <img src="images/influence_token_5_tiny.png" id="influence-token-5"/>
     <img src="images/influence_token_6_tiny.png" id="influence-token-6"/>
@@ -15,7 +20,7 @@
     <img src="images/wealth_token_10_tiny.png" id="wealth-token-10"/>
     <img src="images/wealth_token_11_tiny.png" id="wealth-token-11"/>
     <img src="images/wealth_token_12_tiny.png" id="wealth-token-12"/>
-    <img src="images/board.jpg" id="board"/>
+    <img src="images/board.jpg" id="board-graphic"/>
   </body>
 </html>
 <script type="text/paperscript" canvas="canvas">
@@ -40,7 +45,19 @@ function inBounds(shape) {
 function draw_board() {
   draw_grid(board_offset_x,board_offset_y,6,6);
   draw_prestige_side_board(board_offset_x,board_offset_y);
-  board_raster = new Raster('board');
+  insert_board_image();
+  var rect = new Path.Rectangle({
+    point: [0, 0],
+    size: view.size ,
+    strokeColor: 'blue',
+    selected: true
+});
+rect.sendToBack();
+rect.fillColor = 'blue';
+}
+
+function insert_board_image() {
+  board_raster = new Raster('board-graphic');
   board_raster.position = new Point(100 + board_raster["width"]  / 2,
                                     100 + board_raster["height"] / 2);
   board_raster.sendToBack();
