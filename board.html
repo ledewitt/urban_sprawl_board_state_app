@@ -29,31 +29,53 @@ board_offset_x = 362;
 board_offset_y = 266;
 piece_size     = 56;
 
-path = rectangle(30,30);
-path2 = rectangle(100,30);
-pieces = [path,  path2];
+pieces = [];
 draw_board();
 on_the_mouse = null;
 
-function inBounds(shape) {
-  return (shape.bounds["_width"] + shape.bounds["_x"] >= mouse_x &&
-        shape.bounds["_x"] <= mouse_x &&
-        shape.bounds["_height"] + shape.bounds["_y"] >= mouse_y &&
-        shape.bounds["_y"] <= mouse_y);
-}
-
 function draw_board() {
   draw_grid(board_offset_x,board_offset_y,6,6);
-  draw_prestige_side_board(board_offset_x,board_offset_y);
-  insert_board_image();
-  var rect = new Path.Rectangle({
-    point: [0, 0],
-    size: view.size ,
-    strokeColor: 'blue',
-    selected: true
-});
-rect.sendToBack();
-rect.fillColor = 'blue';
+  //draw_prestige_side_board(board_offset_x,board_offset_y);
+  //insert_board_image();
+  draw_piece_side_board();
+}
+
+function draw_piece_side_board() {
+  piece_side_board_name = new PointText(0,800);
+  piece_side_board_name.fillColor = "white";
+  piece_side_board_name.fontSize = 25;
+  piece_side_board_name.content = "piece generator";
+  piece_side_board_borders = { "left_x"  :  0,
+                      "right_x" : piece_size * 7,
+                      "top_y"   : 820,
+                      "bottom_y": 820 + piece_size * 2
+  };
+  piece_side_board = new Path();
+  piece_side_board.strokeColor = 'black';
+  piece_side_board.fillColor = "white";
+  var left_x   = piece_side_board_borders["left_x"];
+  var right_x  = piece_side_board_borders["right_x"];
+  var top_y    = piece_side_board_borders ["top_y"];
+  var bottom_y = piece_side_board_borders["bottom_y"];
+  piece_side_board.add(new Point(left_x,  top_y));
+  piece_side_board.add(new Point(right_x, top_y));
+  piece_side_board.add(new Point(right_x, bottom_y));
+  piece_side_board.add(new Point(left_x,  bottom_y));
+  piece_side_board.closed = true;
+  
+  var red_big_square = big_square_shape(10,800 + piece_size - piece_size / 2);
+  pieces.push(red_big_square);
+  var red_l = l_shape(10 + piece_size + 10,800 + piece_size - piece_size / 2);
+  pieces.push(red_l);
+  var red_rectangle = rectangle_shape(10 * 2 + piece_size * 2 + 10,800 + piece_size - piece_size / 2);
+  pieces.push(red_rectangle);
+  var red_little_square = little_square_shape(10 * 3 + piece_size * 3 + 10,800 + piece_size - piece_size / 2);
+  pieces.push(red_little_square);
+
+}
+
+function inBounds(shape) {
+  return shape.contains(mouse_location.point);
 }
 
 function insert_board_image() {
@@ -61,6 +83,14 @@ function insert_board_image() {
   board_raster.position = new Point(100 + board_raster["width"]  / 2,
                                     100 + board_raster["height"] / 2);
   board_raster.sendToBack();
+  var rect = new Path.Rectangle({
+    point: [0, 0],
+    size: view.size ,
+    strokeColor: 'blue',
+    selected: true
+  });
+  rect.sendToBack();
+  rect.fillColor = 'blue';
 }
 
 function draw_prestige_side_board(board_offset_x,board_offset_y) {
@@ -74,9 +104,9 @@ function draw_prestige_side_board(board_offset_x,board_offset_y) {
   prestige_markers = new Path();
   prestige_markers.strokeColor = 'black';
   var left_x   = prestige_borders["left_x"];
-  right_x      = prestige_borders["right_x"];
-  top_y        = prestige_borders["top_y"];
-  bottom_y     = prestige_borders["bottom_y"];
+  var right_x  = prestige_borders["right_x"];
+  var top_y    = prestige_borders["top_y"];
+  var bottom_y = prestige_borders["bottom_y"];
   prestige_markers.add(new Point(left_x,  top_y));
   prestige_markers.add(new Point(left_x,  bottom_y));
   prestige_markers.add(new Point(right_x, bottom_y));
@@ -112,6 +142,7 @@ function draw_grid_row(start_x,start_y,grid_size) {
   }
 }
 function onMouseDown(event) {
+  mouse_location = event
   mouse_x = event.point["x"];
   mouse_y = event.point["y"];
   my_piece = pieces.find(inBounds);
@@ -132,7 +163,7 @@ function onMouseUp(event) {
   }
 }
 
-function rectangle(x,y) {
+function l_shape(x,y) {
   var path = new Path();
   path.strokeColor = 'black';
   path.add(new Point(x, y));
@@ -142,6 +173,42 @@ function rectangle(x,y) {
   path.add(new Point(x + piece_size / 2, y + piece_size / 2));
   path.add(new Point(x + piece_size / 2, y + piece_size));
   path.add(new Point(x, y + piece_size));
+  path.closed=true;
+  project.activeLayer.lastChild.fillColor = 'red';
+  return path;
+}
+
+function big_square_shape(x,y) {
+  var path = new Path();
+  path.strokeColor = 'black';
+  path.add(new Point(x, y));
+  path.add(new Point(x + piece_size, y));
+  path.add(new Point(x + piece_size, y + piece_size));
+  path.add(new Point(x, y + piece_size));
+  path.closed=true;
+  project.activeLayer.lastChild.fillColor = 'red';
+  return path;
+}
+
+function rectangle_shape(x,y) {
+  var path = new Path();
+  path.strokeColor = 'black';
+  path.add(new Point(x, y));
+  path.add(new Point(x + piece_size / 2, y));
+  path.add(new Point(x + piece_size / 2, y + piece_size));
+  path.add(new Point(x, y + piece_size));
+  path.closed=true;
+  project.activeLayer.lastChild.fillColor = 'red';
+  return path;
+}
+
+function little_square_shape(x,y) {
+  var path = new Path();
+  path.strokeColor = 'black';
+  path.add(new Point(x, y));
+  path.add(new Point(x + piece_size / 2, y));
+  path.add(new Point(x + piece_size / 2, y + piece_size / 2));
+  path.add(new Point(x, y + piece_size / 2));
   path.closed=true;
   project.activeLayer.lastChild.fillColor = 'red';
   return path;
