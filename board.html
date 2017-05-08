@@ -25,8 +25,8 @@
 </html>
 <script type="text/paperscript" canvas="canvas">
   
-board_offset_x = 362;
-board_offset_y = 266;
+board_offset_x = 361;
+board_offset_y = 267;
 piece_size     = 56;
 
 pieces = [];
@@ -155,8 +155,8 @@ function onMouseUp(event) {
   } else {
     var x_modulus = (event.point["x"] - board_offset_x) % piece_size;
     var y_modulus = (event.point["y"] - board_offset_y) % piece_size;
-    refined_x = event.point["x"] - x_modulus + piece_size / 2;
-    refined_y = event.point["y"] - y_modulus + piece_size / 2;
+    refined_x = event.point["x"] - x_modulus + piece_size / 2 - 5;
+    refined_y = event.point["y"] - y_modulus + piece_size / 2 - 5;
     move_to = {x: refined_x , y: refined_y};
     on_the_mouse.position = move_to;
     on_the_mouse = null;
@@ -167,12 +167,12 @@ function l_shape(x,y) {
   var path = new Path();
   path.strokeColor = 'black';
   path.add(new Point(x, y));
-  path.add(new Point(x + piece_size, y));
-  path.add(new Point(x + piece_size, y));
-  path.add(new Point(x + piece_size, y + piece_size / 2));
-  path.add(new Point(x + piece_size / 2, y + piece_size / 2));
-  path.add(new Point(x + piece_size / 2, y + piece_size));
-  path.add(new Point(x, y + piece_size));
+  path.add(new Point(x + piece_size - 10, y));
+  path.add(new Point(x + piece_size - 10, y));
+  path.add(new Point(x + piece_size - 10, y + piece_size / 2 - 5));
+  path.add(new Point(x + piece_size / 2 - 5, y + piece_size / 2 - 5));
+  path.add(new Point(x + piece_size / 2 - 5, y + piece_size - 10));
+  path.add(new Point(x, y + piece_size - 10));
   path.closed=true;
   project.activeLayer.lastChild.fillColor = 'red';
   return path;
@@ -182,9 +182,9 @@ function big_square_shape(x,y) {
   var path = new Path();
   path.strokeColor = 'black';
   path.add(new Point(x, y));
-  path.add(new Point(x + piece_size, y));
-  path.add(new Point(x + piece_size, y + piece_size));
-  path.add(new Point(x, y + piece_size));
+  path.add(new Point(x + piece_size - 10, y));
+  path.add(new Point(x + piece_size - 10, y + piece_size - 10));
+  path.add(new Point(x, y + piece_size - 10));
   path.closed=true;
   project.activeLayer.lastChild.fillColor = 'red';
   return path;
@@ -194,9 +194,9 @@ function rectangle_shape(x,y) {
   var path = new Path();
   path.strokeColor = 'black';
   path.add(new Point(x, y));
-  path.add(new Point(x + piece_size / 2, y));
-  path.add(new Point(x + piece_size / 2, y + piece_size));
-  path.add(new Point(x, y + piece_size));
+  path.add(new Point(x + piece_size / 2 - 5, y));
+  path.add(new Point(x + piece_size / 2 - 5, y + piece_size - 10));
+  path.add(new Point(x, y + piece_size - 10));
   path.closed=true;
   project.activeLayer.lastChild.fillColor = 'red';
   return path;
@@ -206,9 +206,9 @@ function little_square_shape(x,y) {
   var path = new Path();
   path.strokeColor = 'black';
   path.add(new Point(x, y));
-  path.add(new Point(x + piece_size / 2, y));
-  path.add(new Point(x + piece_size / 2, y + piece_size / 2));
-  path.add(new Point(x, y + piece_size / 2));
+  path.add(new Point(x + piece_size / 2 - 5, y));
+  path.add(new Point(x + piece_size / 2 - 5, y + piece_size / 2 - 5));
+  path.add(new Point(x, y + piece_size / 2 - 5));
   path.closed=true;
   project.activeLayer.lastChild.fillColor = 'red';
   return path;
