@@ -10,6 +10,69 @@
     </div>
     <div class="players-menu">
       players menu here
+    <select id="Player_Section_Menu">
+      <option value="player-1">Player 1:</option>
+      <option value="player-2">Player 2:</option>
+      <option value="player-3">Player 3:</option>
+      <option value="player-4">Player 4:</option>
+    </select>
+    
+    <div>
+      <label for="name">Name:</label>
+      <input type="text" id="name"> 
+      <a href="#" onclick="javascript:player_name();"> Submit </a>
+    </div>
+    
+    <script>
+
+    function create_player_board() {
+      players = "";
+      Object.keys(game_state["player_state"]).forEach(function(element)
+            {console.log(element);
+            players = players + "<table> <tr> Player: </tr> <tr> "+
+                     game_state["player_state"][element]+
+                    " </tr> </table>";
+            });
+      document.getElementById("player-boards").innerHTML = players;
+      }
+
+    function player_name(element) {
+        players = players + element;
+        console.log(element);
+      }
+
+      // a.forEach(function(element) {
+      //  console.log(element);
+      // });
+
+    </script>
+
+    <span id="player-boards">
+
+    </span>
+
+    <script>
+    var game_state = {
+      "player_state": {
+        //player names, elected offices, and whatnot, here.
+      },
+      "board_state": { 
+         //token locations here
+      }
+    }
+
+    function player_name(name) {
+      // ... use game_state ...
+
+      var e = document.getElementById("Player_Section_Menu")
+      var strUser = e.options[e.selectedIndex].value;
+     
+      game_state["player_state"][strUser] = document.getElementById("name").value;
+
+      create_player_board();
+    }
+    </script>
+
     </div>
     <img src="images/influence_token_4_tiny.png" id="influence-token-4" style="width:128px;height:128px;"/>
     <img src="images/influence_token_5_tiny.png" id="influence-token-5"/>
