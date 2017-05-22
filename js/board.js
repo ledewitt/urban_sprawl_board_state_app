@@ -70,7 +70,6 @@ function insert_board_image() {
 
 function draw_prestige_side_board(board_offset_x,board_offset_y) {
   var token_size = 27;
-  console.log(piece_size);
   var prestige_borders= { "left_x"  :  board_offset_x + 60,
                       "right_x" : board_offset_x + token_size * 9 + 60,
                       "top_y"   : board_offset_y + piece_size * 6 + 110,

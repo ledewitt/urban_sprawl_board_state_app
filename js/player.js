@@ -2,7 +2,7 @@
 function create_player_board() {
   players = "";
   Object.keys(game_state["player_state"]).forEach(function(element)
-    {console.log(element);
+    {
       players = players + "<table> <tr> Player: </tr> <tr> "+
         game_state["player_state"][element]+
         " </tr> </table>";
@@ -12,7 +12,6 @@ function create_player_board() {
 
 function player_name(element) {
   players = players + element;
-  console.log(element);
 }
 
 function player_name(name) {
