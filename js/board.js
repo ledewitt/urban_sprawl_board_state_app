@@ -7,10 +7,11 @@ pieces = [];
 draw_board();
 on_the_mouse = null;
 
+
 function draw_board() {
-  draw_grid(board_offset_x,board_offset_y,1,2);
+  draw_grid(board_offset_x,board_offset_y,6,6);
   draw_prestige_side_board(board_offset_x,board_offset_y);
-  //insert_board_image();
+  insert_board_image();
   draw_piece_side_board();
 }
 
@@ -105,14 +106,14 @@ function draw_grid(start_x,start_y,height,width) {
 }
 function draw_grid_row(start_x,start_y,grid_size) {
   for(var i = 0 ; i < grid_size; i++) {
-    start_x = start_x + piece_size * i + (i % 2)
+    this_start_x = start_x + (piece_size * i);
     var grid = new Path();
     grid.strokeColor = 'black';
-    grid.add(new Point(start_x, start_y));
-    grid.add(new Point(start_x, start_y + piece_size));
-    grid.add(new Point(start_x + piece_size, start_y + piece_size));
-    grid.add(new Point(start_x + piece_size, start_y));
-    grid.add(new Point(start_x, start_y));
+    grid.add(new Point(this_start_x, start_y));
+    grid.add(new Point(this_start_x, start_y + piece_size));
+    grid.add(new Point(this_start_x + piece_size, start_y + piece_size));
+    grid.add(new Point(this_start_x + piece_size, start_y));
+    grid.add(new Point(this_start_x, start_y));
     grid.closed=true;
   }
 }
