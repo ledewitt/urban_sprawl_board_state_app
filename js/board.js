@@ -1,93 +1,4 @@
-<html>
-  <head>
-    <link rel="stylesheet" href="./style.css">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />  
-  </head>
-    <script type="text/javascript" src="./node_modules/paper/dist/paper-full.js"></script>
-  <body>
-    <div class="board">
-      <canvas id="canvas" resize></canvas>
-    </div>
-    <div class="players-menu">
-      players menu here
-    <select id="Player_Section_Menu">
-      <option value="player-1">Player 1:</option>
-      <option value="player-2">Player 2:</option>
-      <option value="player-3">Player 3:</option>
-      <option value="player-4">Player 4:</option>
-    </select>
-    
-    <div>
-      <label for="name">Name:</label>
-      <input type="text" id="name"> 
-      <a href="#" onclick="javascript:player_name();"> Submit </a>
-    </div>
-    
-    <script>
 
-    function create_player_board() {
-      players = "";
-      Object.keys(game_state["player_state"]).forEach(function(element)
-            {console.log(element);
-            players = players + "<table> <tr> Player: </tr> <tr> "+
-                     game_state["player_state"][element]+
-                    " </tr> </table>";
-            });
-      document.getElementById("player-boards").innerHTML = players;
-      }
-
-    function player_name(element) {
-        players = players + element;
-        console.log(element);
-      }
-
-      // a.forEach(function(element) {
-      //  console.log(element);
-      // });
-
-    </script>
-
-    <span id="player-boards">
-
-    </span>
-
-    <script>
-    var game_state = {
-      "player_state": {
-        //player names, elected offices, and whatnot, here.
-      },
-      "board_state": { 
-         //token locations here
-      }
-    }
-
-    function player_name(name) {
-      // ... use game_state ...
-
-      var e = document.getElementById("Player_Section_Menu")
-      var strUser = e.options[e.selectedIndex].value;
-     
-      game_state["player_state"][strUser] = document.getElementById("name").value;
-
-      create_player_board();
-    }
-    </script>
-
-    </div>
-    <img src="images/influence_token_4_tiny.png" id="influence-token-4" style="width:128px;height:128px;"/>
-    <img src="images/influence_token_5_tiny.png" id="influence-token-5"/>
-    <img src="images/influence_token_6_tiny.png" id="influence-token-6"/>
-    <img src="images/wealth_token_7_tiny.png" id="wealth-token-7"/>
-    <img src="images/wealth_token_8_tiny.png" id="wealth-token-8"/>
-    <img src="images/wealth_token_9_tiny.png" id="wealth-token-9"/>
-    <img src="images/wealth_token_10_tiny.png" id="wealth-token-10"/>
-    <img src="images/wealth_token_11_tiny.png" id="wealth-token-11"/>
-    <img src="images/wealth_token_12_tiny.png" id="wealth-token-12"/>
-    <img src="images/board.jpg" id="board-graphic"/>
-  </body>
-</html>
-<script type="text/paperscript" canvas="canvas">
-  
 board_offset_x = 361;
 board_offset_y = 267;
 piece_size     = 56;
@@ -95,6 +6,7 @@ piece_size     = 56;
 pieces = [];
 draw_board();
 on_the_mouse = null;
+
 
 function draw_board() {
   draw_grid(board_offset_x,board_offset_y,6,6);
@@ -104,7 +16,7 @@ function draw_board() {
 }
 
 function draw_piece_side_board() {
-  piece_side_board_name = new PointText(0,800);
+  var piece_side_board_name = new PointText(0,800);
   piece_side_board_name.fillColor = "white";
   piece_side_board_name.fontSize = 25;
   piece_side_board_name.content = "piece generator";
@@ -125,7 +37,7 @@ function draw_piece_side_board() {
   piece_side_board.add(new Point(right_x, bottom_y));
   piece_side_board.add(new Point(left_x,  bottom_y));
   piece_side_board.closed = true;
-  
+
   var red_big_square = big_square_shape(10,800 + piece_size - piece_size / 2);
   pieces.push(red_big_square);
   var red_l = l_shape(10 + piece_size + 10,800 + piece_size - piece_size / 2);
@@ -158,7 +70,6 @@ function insert_board_image() {
 
 function draw_prestige_side_board(board_offset_x,board_offset_y) {
   var token_size = 27;
-  console.log(piece_size);
   var prestige_borders= { "left_x"  :  board_offset_x + 60,
                       "right_x" : board_offset_x + token_size * 9 + 60,
                       "top_y"   : board_offset_y + piece_size * 6 + 110,
@@ -194,13 +105,14 @@ function draw_grid(start_x,start_y,height,width) {
 }
 function draw_grid_row(start_x,start_y,grid_size) {
   for(var i = 0 ; i < grid_size; i++) {
+    this_start_x = start_x + (piece_size * i);
     var grid = new Path();
     grid.strokeColor = 'black';
-    grid.add(new Point(start_x + piece_size * i, start_y));
-    grid.add(new Point(start_x + piece_size * i, start_y + piece_size));
-    grid.add(new Point(start_x + piece_size + piece_size * i, start_y + piece_size));
-    grid.add(new Point(start_x + piece_size + piece_size * i, start_y));
-    grid.add(new Point(start_x + piece_size * i, start_y));
+    grid.add(new Point(this_start_x, start_y));
+    grid.add(new Point(this_start_x, start_y + piece_size));
+    grid.add(new Point(this_start_x + piece_size, start_y + piece_size));
+    grid.add(new Point(this_start_x + piece_size, start_y));
+    grid.add(new Point(this_start_x, start_y));
     grid.closed=true;
   }
 }
@@ -210,7 +122,12 @@ function onMouseDown(event) {
   mouse_y = event.point["y"];
   my_piece = pieces.find(inBounds);
   if(my_piece != null) {
-    on_the_mouse = my_piece;
+    if(piece_side_board.contains(mouse_location.point)) {
+      on_the_mouse = my_piece.clone();
+      pieces.push(on_the_mouse);
+    } else {
+      on_the_mouse = my_piece;
+    }
   }
 }
 function onMouseUp(event) {
@@ -278,4 +195,3 @@ function little_square_shape(x,y) {
 }
 
 
-</script>

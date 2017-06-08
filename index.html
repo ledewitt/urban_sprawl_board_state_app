@@ -1,0 +1,57 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="./style.css">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />  
+  </head>
+    <script type="text/javascript" src="./js/paper-full.js" async></script>
+    <script type="text/javascript"  src="./js/player.js" async></script>
+    <script type="text/paperscript"  src="./js/board.js" canvas="canvas" async></script>
+  <body>
+    <div class="board">
+      <canvas id="canvas" resize></canvas>
+    </div>
+    <div class="players-menu">
+      players menu here
+    <select id="Player_Section_Menu">
+      <option value="player-1">Player 1:</option>
+      <option value="player-2">Player 2:</option>
+      <option value="player-3">Player 3:</option>
+      <option value="player-4">Player 4:</option>
+    </select>
+    
+    <div>
+      <label for="name">Name:</label>
+      <input type="text" id="name"> 
+      <a href="#" onclick="javascript:player_name();"> Submit </a>
+    </div>
+
+
+    <span id="player-boards">
+
+    </span>
+
+    <script>
+var game_state = {
+  "player_state": {
+    //player names, elected offices, and whatnot, here.
+  },
+  "board_state": { 
+    //token locations here
+  }
+}
+
+    </script>
+
+    </div>
+    <img src="images/influence_token_4_tiny.png" id="influence-token-4"/>
+    <img src="images/influence_token_5_tiny.png" id="influence-token-5"/>
+    <img src="images/influence_token_6_tiny.png" id="influence-token-6"/>
+    <img src="images/wealth_token_7_tiny.png"    id="wealth-token-7"   />
+    <img src="images/wealth_token_8_tiny.png"    id="wealth-token-8"   />
+    <img src="images/wealth_token_9_tiny.png"    id="wealth-token-9"   />
+    <img src="images/wealth_token_10_tiny.png"   id="wealth-token-10"  />
+    <img src="images/wealth_token_11_tiny.png"   id="wealth-token-11"  />
+    <img src="images/wealth_token_12_tiny.png"   id="wealth-token-12"  />
+    <img src="images/board.jpg"                  id="board-graphic"    />
+  </body>
+</html>
