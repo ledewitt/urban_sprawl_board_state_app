@@ -10,16 +10,14 @@ function create_player_board() {
   document.getElementById("player-boards").innerHTML = players;
 }
 
-function player_name(element) {
-  players = players + element;
-}
+// TODO rename this
 
 function player_name(name) {
 
   var e = document.getElementById("Player_Section_Menu")
   var strUser = e.options[e.selectedIndex].value;
 
-  game_state["player_state"][strUser] = document.getElementById("name").value;
+  game_state["player_state"]["players"].push(document.getElementById("name").value);
 
   create_player_board();
 }
