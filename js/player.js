@@ -1,10 +1,18 @@
-
 function create_player_board() {
   players = "";
-  Object.keys(game_state["player_state"]).forEach(function(element)
+  game_state["player_state"]["players"].forEach(function(element)
     {
+
+    /*
+      TODO: Call function to build the player's table with all information.
+
+      Name, Vocations, etc...
+
+      Replace Strings with actual data structures.
+    */
+
       players = players + "<table> <tr> Player: </tr> <tr> "+
-        game_state["player_state"][element]+
+        element+
         " </tr> </table>";
     });
   document.getElementById("player-boards").innerHTML = players;
