@@ -6,6 +6,7 @@ piece_size     = 56;
 pieces = [];
 draw_board();
 on_the_mouse = null;
+test_point = new Point(5,5);
 
 
 function draw_board() {
@@ -68,6 +69,22 @@ function insert_board_image() {
   rect.fillColor = 'blue';
 }
 
+function make_token(position,type,value) {
+  var token_size = 27;
+  var circle = new Path.Circle(position, token_size / 2 - 4);
+  circle.strokeColor = 'black';
+  fill_color = type == 'wealth' ? "yellow" : "red";
+  circle.fillColor = fill_color;
+  var text = new PointText(new Point(position.x, position.y + 4));
+  text.fillColor = 'black';
+  text.justification = 'center';
+  text.content = value;
+  var token = new Group();
+  token.addChild(circle);
+  token.addChild(text);
+  return token;
+}
+
 function draw_prestige_side_board(board_offset_x,board_offset_y) {
   var token_size = 27;
   var prestige_borders= { "left_x"  :  board_offset_x + 60,
@@ -86,15 +103,22 @@ function draw_prestige_side_board(board_offset_x,board_offset_y) {
   prestige_markers.add(new Point(right_x, bottom_y));
   prestige_markers.add(new Point(right_x, top_y));
   prestige_markers.closed=true;
+
+
+
   for(var i = 4; i <= 6 ; i++) {
-    var raster = new Raster('influence-token-' + i);
-    raster.position = new Point(left_x + (i - 4) * token_size + token_size / 2,top_y + token_size / 2);
-    pieces.push(raster);
+    _x = left_x + (i - 4) * token_size + token_size / 2;
+    _y = top_y + token_size / 2;
+    var spot = new Point(_x, _y );
+    var _token = make_token(spot,"influence",i);
+    pieces.push(_token);
   }
   for(var i = 7; i <= 12 ; i++) {
-    var raster = new Raster('wealth-token-' + i);
-    raster.position = new Point(left_x + (i - 4) * token_size + token_size / 2,top_y + token_size / 2);
-    pieces.push(raster);
+    _x = left_x + (i - 4) * token_size + token_size / 2;
+    _y = top_y + token_size / 2;
+    var spot = new Point(_x, _y );
+    var _token = make_token(spot,"wealth",i);
+    pieces.push(_token);
   }
 }
 
